@@ -1,0 +1,3 @@
+rootProject.name = 'mobileAuth'
+
+include ':app'
