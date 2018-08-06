@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import {
   Content,
   Card,
@@ -39,8 +39,16 @@ class LoginForm extends Component {
                   <Input secureTextEntry />
                 </Item>
               </Form>
-              <Button transparent style={{ marginTop: 10 }}>
-                <Text style={{ color: '#E91E63' }}>Sign in</Text>
+              <Button block style={{ marginTop: 10, backgroundColor:'#E91E63' }}>
+                <Text style={{ color: 'white' }}>Sign in</Text>
+              </Button>
+            </Body>
+          </CardItem>
+          <CardItem bordered>
+            <Body>
+              <Label style={{ color: '#ABB8C3' }}>Do you have no Account ?</Label>
+              <Button bordered style={{borderColor: '#E91E63', marginTop: 10}} >
+                <Text style={{ color: '#E91E63' }}>Sign up</Text>
               </Button>
             </Body>
           </CardItem>
