@@ -15,7 +15,6 @@ import {
   Text,
 } from 'native-base';
 import { signIn } from '../actions';
-console.log(signIn);
 
 const validate = values => {
   const error = {};
@@ -38,7 +37,10 @@ const validate = values => {
   return error;
 };
 
-class LoginForm extends Component {
+class SignInScreen extends Component {
+  static navigationOptions = {
+    title: 'Welcome to the App!',
+  };
   onSubmit(values) {
     if (values.username === undefined || values.username === '') {
       throw new SubmissionError({
@@ -121,7 +123,13 @@ class LoginForm extends Component {
               <Label style={styles.noticeLabelStyle}>
                 Do you have no Account ?
               </Label>
-              <Button bordered style={styles.singupButtonStyle}>
+              <Button
+                bordered
+                style={styles.singupButtonStyle}
+                onPress={() => {
+                  this.props.navigation.navigate('SignUp');
+                }}
+              >
                 <Text style={styles.singupButtonLabelStyle}>Sign up</Text>
               </Button>
             </Body>
@@ -164,4 +172,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default reduxForm({ form: 'signin', validate })(LoginForm);
+export default reduxForm({ form: 'signin', validate })(SignInScreen);
