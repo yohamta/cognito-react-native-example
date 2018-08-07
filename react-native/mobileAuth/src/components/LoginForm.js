@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { reduxForm, Field } from 'redux-form';
 import {
   Content,
   Card,
@@ -14,7 +15,54 @@ import {
   Text,
 } from 'native-base';
 
+const validate = values => {
+  const error = {};
+  error.username = '';
+  error.password = '';
+  var un = values.username;
+  var pw = values.password;
+  if (values.username === undefined) {
+    un = '';
+  }
+  if (values.password === undefined) {
+    pw = '';
+  }
+  if (pw.length < 8 && pw !== '') {
+    error.password = 'Password is too short';
+  }
+  if (un.length > 15) {
+    error.username = 'Username is too long (max 15 characters)';
+  }
+  return error;
+};
+
 class LoginForm extends Component {
+  onSubmit(values) {
+    console.log(values);
+  }
+
+  renderInput({
+    input,
+    label,
+    type,
+    meta: { touched, error, warning },
+    ...inputProps
+  }) {
+    var hasError = false;
+    if (error !== undefined) {
+      hasError = true;
+    }
+    return (
+      <React.Fragment>
+        <Item stackedLabel style={styles.inputItemStyle} error={hasError}>
+          <Label style={styles.labelStyle}>{label}</Label>
+          <Input {...input} {...inputProps} />
+        </Item>
+        {hasError ? <Text style={{ color: 'red' }}>{error}</Text> : <Text />}
+      </React.Fragment>
+    );
+  }
+
   render() {
     return (
       <Content padder>
@@ -30,16 +78,23 @@ class LoginForm extends Component {
           <CardItem bordered>
             <Body>
               <Form style={{ alignSelf: 'stretch' }}>
-                <Item stackedLabel style={styles.inputItemStyle}>
-                  <Label style={styles.labelStyle}>Username</Label>
-                  <Input />
-                </Item>
-                <Item stackedLabel style={styles.inputItemStyle}>
-                  <Label style={styles.labelStyle}>Password</Label>
-                  <Input secureTextEntry />
-                </Item>
+                <Field
+                  name={'username'}
+                  component={this.renderInput}
+                  label="Username"
+                />
+                <Field
+                  name={'password'}
+                  component={this.renderInput}
+                  label="Password"
+                  secureTextEntry
+                />
               </Form>
-              <Button block style={styles.signinButtonStyle}>
+              <Button
+                block
+                style={styles.signinButtonStyle}
+                onPress={this.props.handleSubmit(this.onSubmit)}
+              >
                 <Text style={styles.singinButtonLabelStyle}>Sign in</Text>
               </Button>
             </Body>
@@ -92,4 +147,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginForm;
+export default reduxForm({ form: 'signin', validate })(LoginForm);
