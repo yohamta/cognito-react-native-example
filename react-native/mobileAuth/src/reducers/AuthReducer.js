@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL } from '../actions/types';
+import { SIGNIN_SUCCESS, SIGNIN_FAIL } from '../actions/types';
 
 const INITIAL_STATE = {
   user: null,
@@ -6,11 +6,11 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case LOGIN_SUCCESS:
+    case SIGNIN_SUCCESS:
       return {
         ...state,
       };
-    case LOGIN_FAIL:
+    case SIGNIN_FAIL:
       return {
         ...state,
       };

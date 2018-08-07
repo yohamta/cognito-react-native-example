@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm, Field, SubmissionError } from 'redux-form';
 import {
   Content,
   Card,
@@ -14,6 +14,8 @@ import {
   Left,
   Text,
 } from 'native-base';
+import { signIn } from '../actions';
+console.log(signIn);
 
 const validate = values => {
   const error = {};
@@ -38,7 +40,19 @@ const validate = values => {
 
 class LoginForm extends Component {
   onSubmit(values) {
-    console.log(values);
+    if (values.username === undefined || values.username === '') {
+      throw new SubmissionError({
+        username: 'Please Input Username',
+        _error: 'Sign in Failed !',
+      });
+    }
+    if (values.password === undefined || values.password === '') {
+      throw new SubmissionError({
+        username: 'Please Input Password',
+        _error: 'Sign in Failed !',
+      });
+    }
+    signIn(values.username, values.password);
   }
 
   renderInput({
@@ -64,6 +78,7 @@ class LoginForm extends Component {
   }
 
   render() {
+    const { error, handleSubmit } = this.props;
     return (
       <Content padder>
         <Card>
@@ -93,10 +108,12 @@ class LoginForm extends Component {
               <Button
                 block
                 style={styles.signinButtonStyle}
-                onPress={this.props.handleSubmit(this.onSubmit)}
+                onPress={handleSubmit(this.onSubmit)}
               >
                 <Text style={styles.singinButtonLabelStyle}>Sign in</Text>
               </Button>
+              {error !== undefined &&
+                error !== '' && <Text style={{ color: 'red' }}>{error}</Text>}
             </Body>
           </CardItem>
           <CardItem bordered>
