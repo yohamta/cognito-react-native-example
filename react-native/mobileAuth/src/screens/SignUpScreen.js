@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { Transition } from 'react-navigation-fluid-transitions';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
 import {
   Content,
@@ -114,25 +115,39 @@ class SignUpScreen extends Component {
                   secureTextEntry
                 />
               </Form>
-              <Button
-                block
-                style={styles.signinButtonStyle}
-                onPress={handleSubmit(this.onSubmit)}
-              >
-                <Text style={styles.singinButtonLabelStyle}>Sign up</Text>
-              </Button>
+              <Transition shared="authSubmitButton">
+                <View>
+                  <Button
+                    block
+                    style={styles.signinButtonStyle}
+                    onPress={handleSubmit(this.onSubmit)}
+                  >
+                    <Text style={styles.singinButtonLabelStyle}>Sign up</Text>
+                  </Button>
+                </View>
+              </Transition>
               {error !== undefined &&
                 error !== '' && <Text style={{ color: 'red' }}>{error}</Text>}
             </Body>
           </CardItem>
           <CardItem bordered>
             <Body>
-              <Label style={styles.noticeLabelStyle}>
-                Do you have no Account ?
-              </Label>
-              <Button bordered style={styles.singupButtonStyle}>
-                <Text style={styles.singupButtonLabelStyle}>Sign up</Text>
-              </Button>
+              <Transition shared="MethodChange">
+                <View>
+                  <Label style={styles.noticeLabelStyle}>
+                    Do you have no Account ?
+                  </Label>
+                  <Button
+                    bordered
+                    style={styles.singupButtonStyle}
+                    onPress={() => {
+                      this.props.navigation.navigate('SignIn');
+                    }}
+                  >
+                    <Text style={styles.singupButtonLabelStyle}>Sign in</Text>
+                  </Button>
+                </View>
+              </Transition>
             </Body>
           </CardItem>
         </Card>

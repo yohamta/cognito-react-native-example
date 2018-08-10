@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
+import { Transition } from 'react-navigation-fluid-transitions';
 import {
   Content,
   Card,
@@ -107,19 +108,25 @@ class SignInScreen extends Component {
                   secureTextEntry
                 />
               </Form>
-              <Button
-                block
-                style={styles.signinButtonStyle}
-                onPress={handleSubmit(this.onSubmit)}
-              >
-                <Text style={styles.singinButtonLabelStyle}>Sign in</Text>
-              </Button>
+              <Transition shared="authSubmitButton">
+                <View>
+                  <Button
+                    block
+                    style={styles.signinButtonStyle}
+                    onPress={handleSubmit(this.onSubmit)}
+                  >
+                    <Text style={styles.singinButtonLabelStyle}>Sign in</Text>
+                  </Button>
+                </View>
+              </Transition>
               {error !== undefined &&
                 error !== '' && <Text style={{ color: 'red' }}>{error}</Text>}
             </Body>
           </CardItem>
           <CardItem bordered>
             <Body>
+              <Transition shared="MethodChange">
+              <View>
               <Label style={styles.noticeLabelStyle}>
                 Do you have no Account ?
               </Label>
@@ -132,6 +139,8 @@ class SignInScreen extends Component {
               >
                 <Text style={styles.singupButtonLabelStyle}>Sign up</Text>
               </Button>
+              </View>
+              </Transition>
             </Body>
           </CardItem>
         </Card>

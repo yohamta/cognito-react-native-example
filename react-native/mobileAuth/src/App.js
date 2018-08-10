@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
   YellowBox,
@@ -23,6 +15,7 @@ import {
   CardStackStyleInterpolator,
 } from 'react-navigation';
 import { createStore, applyMiddleware } from 'redux';
+import { FluidNavigator } from 'react-navigation-fluid-transitions';
 import ReduxThunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import Amplify from 'aws-amplify';
@@ -58,11 +51,8 @@ const transitionConfig = () => {
   };
 };
 
-const AuthStack = createStackNavigator(
+const AuthStack = FluidNavigator(
   { SignIn: SignInScreen, SignUp: SignUpScreen },
-  {
-    transitionConfig,
-  }
 );
 
 const SwitchNavigator = createSwitchNavigator(
@@ -75,8 +65,7 @@ const SwitchNavigator = createSwitchNavigator(
   }
 );
 
-type Props = {};
-export default class App extends Component<Props> {
+export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
