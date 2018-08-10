@@ -17,45 +17,24 @@ import {
 } from 'native-base';
 import { signIn } from '../actions';
 
-const validate = values => {
-  const error = {};
-  error.username = '';
-  error.password = '';
-  var un = values.username;
-  var pw = values.password;
-  if (values.username === undefined) {
-    un = '';
-  }
-  if (values.password === undefined) {
-    pw = '';
-  }
-  if (pw.length < 8 && pw !== '') {
-    error.password = 'Password is too short';
-  }
-  if (un.length > 15) {
-    error.username = 'Username is too long (max 15 characters)';
-  }
-  return error;
-};
-
 class SignInScreen extends Component {
   static navigationOptions = {
     title: 'Welcome to the App!',
   };
   onSubmit(values) {
-    if (values.username === undefined || values.username === '') {
+    if (values.email === undefined || values.email === '') {
       throw new SubmissionError({
-        username: 'Please Input Username',
+        email: 'Please Input E-mail Address',
         _error: 'Sign in Failed !',
       });
     }
     if (values.password === undefined || values.password === '') {
       throw new SubmissionError({
-        username: 'Please Input Password',
+        email: 'Please Input Password',
         _error: 'Sign in Failed !',
       });
     }
-    signIn(values.username, values.password);
+    signIn(values.email, values.password);
   }
 
   renderInput({
@@ -101,9 +80,9 @@ class SignInScreen extends Component {
             <Body>
               <Form style={{ alignSelf: 'stretch' }}>
                 <Field
-                  name={'username'}
+                  name={'email'}
                   component={this.renderInput}
-                  label="Username"
+                  label="E-mail"
                 />
                 <Field
                   name={'password'}
@@ -185,4 +164,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default reduxForm({ form: 'signin', validate })(SignInScreen);
+export default reduxForm({ form: 'signin' })(SignInScreen);

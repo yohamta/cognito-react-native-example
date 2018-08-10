@@ -15,26 +15,41 @@ import {
   Left,
   Text,
 } from 'native-base';
-import { signIn } from '../actions';
-console.log(signIn);
+import { signUp } from '../actions';
+import { validateEmail } from '../utils/Validator';
 
 const validate = values => {
   const error = {};
   error.username = '';
+  error.email = '';
   error.password = '';
   var un = values.username;
+  var em = values.email;
   var pw = values.password;
+  var pwc = values.passwordConfirm;
   if (values.username === undefined) {
     un = '';
+  }
+  if (values.email === undefined) {
+    em = '';
   }
   if (values.password === undefined) {
     pw = '';
   }
+  if (values.passwordConfirm === undefined) {
+    pwc = '';
+  }
+  if (un.length > 15 && pw !== '') {
+    error.password = 'Username must be less than 15 char';
+  }
   if (pw.length < 8 && pw !== '') {
     error.password = 'Password is too short';
   }
-  if (un.length > 15) {
-    error.username = 'Username is too long (max 15 characters)';
+  if (pw !== pwc) {
+    error.passwordConfirm = 'Password is not matched';
+  }
+  if (em !== '' && validateEmail(em) === false) {
+    error.email = 'Email format is invalid!';
   }
   return error;
 };
@@ -46,17 +61,23 @@ class SignUpScreen extends Component {
   onSubmit(values) {
     if (values.username === undefined || values.username === '') {
       throw new SubmissionError({
-        username: 'Please Input Username',
-        _error: 'Sign in Failed !',
+        email: 'Please Input Username',
+        _error: 'Sign up Failed !',
+      });
+    }
+    if (values.email === undefined || values.email === '') {
+      throw new SubmissionError({
+        email: 'Please Input E-mail Address',
+        _error: 'Sign up Failed !',
       });
     }
     if (values.password === undefined || values.password === '') {
       throw new SubmissionError({
         username: 'Please Input Password',
-        _error: 'Sign in Failed !',
+        _error: 'Sign up Failed !',
       });
     }
-    signIn(values.username, values.password);
+    signUp(values.username, values.email, values.password);
   }
 
   renderInput({
@@ -105,6 +126,11 @@ class SignUpScreen extends Component {
                   name={'username'}
                   component={this.renderInput}
                   label="Username"
+                />
+                <Field
+                  name={'email'}
+                  component={this.renderInput}
+                  label="E-mail"
                 />
                 <Field
                   name={'password'}
