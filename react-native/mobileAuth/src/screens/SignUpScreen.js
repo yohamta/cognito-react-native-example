@@ -89,8 +89,12 @@ class SignUpScreen extends Component {
           <CardItem header bordered>
             <Left>
               <Body>
-                <Text>Welcome,</Text>
-                <Text note>Please Sign in to continue</Text>
+                <Transition shared="authTitle">
+                  <View>
+                    <Text>Welcome,</Text>
+                    <Text note>Please Sign in to continue</Text>
+                  </View>
+                </Transition>
               </Body>
             </Left>
           </CardItem>

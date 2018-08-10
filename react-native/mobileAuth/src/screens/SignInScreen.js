@@ -88,8 +88,12 @@ class SignInScreen extends Component {
           <CardItem header bordered>
             <Left>
               <Body>
-                <Text>Welcome,</Text>
-                <Text note>Please Sign in to continue</Text>
+                <Transition shared="authTitle">
+                  <View>
+                    <Text>Welcome,</Text>
+                    <Text note>Please Sign in to continue</Text>
+                  </View>
+                </Transition>
               </Body>
             </Left>
           </CardItem>
@@ -108,7 +112,7 @@ class SignInScreen extends Component {
                   secureTextEntry
                 />
               </Form>
-              <Transition shared="authSubmitButton">
+              <Transition shared="authSubmitButton" appear="scale">
                 <View>
                   <Button
                     block
@@ -126,20 +130,20 @@ class SignInScreen extends Component {
           <CardItem bordered>
             <Body>
               <Transition shared="MethodChange">
-              <View>
-              <Label style={styles.noticeLabelStyle}>
-                Do you have no Account ?
-              </Label>
-              <Button
-                bordered
-                style={styles.singupButtonStyle}
-                onPress={() => {
-                  this.props.navigation.navigate('SignUp');
-                }}
-              >
-                <Text style={styles.singupButtonLabelStyle}>Sign up</Text>
-              </Button>
-              </View>
+                <View>
+                  <Label style={styles.noticeLabelStyle}>
+                    Do you have no Account ?
+                  </Label>
+                  <Button
+                    bordered
+                    style={styles.singupButtonStyle}
+                    onPress={() => {
+                      this.props.navigation.navigate('SignUp');
+                    }}
+                  >
+                    <Text style={styles.singupButtonLabelStyle}>Sign up</Text>
+                  </Button>
+                </View>
               </Transition>
             </Body>
           </CardItem>

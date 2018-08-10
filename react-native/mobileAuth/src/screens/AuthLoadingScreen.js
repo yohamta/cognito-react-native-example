@@ -17,13 +17,13 @@ class AuthLoadingScreen extends React.Component {
     //const userToken = await AsyncStorage.getItem('userToken');
     //this.props.navigation.navigate(userToken ? 'App' : 'Auth');
     const userToken = null;
-    this.props.navigation.navigate(userToken ? 'App' : 'Auth');
+    this.props.navigation.navigate(userToken ? 'App' : 'AuthStack');
   };
 
   render() {
     return (
-      <View style={{flex: 1}}>
-        <ActivityIndicator />
+      <View style={{ flex: 1, flexDirection: 'row' }}>
+        <ActivityIndicator style={{ alignSelf: 'center' }} />
         <StatusBar barStyle="default" />
       </View>
     );
