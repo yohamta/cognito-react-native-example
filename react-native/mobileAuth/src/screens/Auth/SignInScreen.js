@@ -23,13 +23,13 @@ class SignInScreen extends Component {
     console.log({ values });
     if (values.username === undefined || values.username === '') {
       throw new SubmissionError({
-        email: 'Please Input Username or E-mail Address',
+        username: 'Please Input Username or E-mail Address',
         _error: 'Sign in Failed !',
       });
     }
     if (values.password === undefined || values.password === '') {
       throw new SubmissionError({
-        email: 'Please Input Password',
+        password: 'Please Input Password',
         _error: 'Sign in Failed !',
       });
     }
@@ -114,11 +114,11 @@ class SignInScreen extends Component {
           </CardItem>
           <CardItem bordered>
             <Body>
+              <Label style={styles.noticeLabelStyle}>
+                Do you have no Account ?
+              </Label>
               <Transition shared="MethodChange">
                 <View>
-                  <Label style={styles.noticeLabelStyle}>
-                    Do you have no Account ?
-                  </Label>
                   <Button
                     bordered
                     style={styles.singupButtonStyle}

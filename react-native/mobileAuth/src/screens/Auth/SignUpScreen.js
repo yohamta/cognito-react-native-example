@@ -71,7 +71,7 @@ class SignUpScreen extends Component {
     }
     if (values.password === undefined || values.password === '') {
       throw new SubmissionError({
-        username: 'Please Input Password',
+        password: 'Please Input Password',
         _error: 'Sign up Failed !',
       });
     }
@@ -167,11 +167,11 @@ class SignUpScreen extends Component {
           </CardItem>
           <CardItem bordered>
             <Body>
+              <Label style={styles.noticeLabelStyle}>
+                Do you have an account already ?
+              </Label>
               <Transition shared="MethodChange">
                 <View>
-                  <Label style={styles.noticeLabelStyle}>
-                    Do you have no Account ?
-                  </Label>
                   <Button
                     bordered
                     style={styles.singupButtonStyle}
