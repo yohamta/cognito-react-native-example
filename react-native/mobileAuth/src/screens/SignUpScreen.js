@@ -15,6 +15,7 @@ import {
   Left,
   Text,
 } from 'native-base';
+import { connect } from 'react-redux';
 import { signUp } from '../actions';
 import { validateEmail } from '../utils/Validator';
 
@@ -77,7 +78,7 @@ class SignUpScreen extends Component {
         _error: 'Sign up Failed !',
       });
     }
-    signUp(values.username, values.email, values.password);
+    this.props.signUp(values);
   }
 
   renderInput({
@@ -102,8 +103,15 @@ class SignUpScreen extends Component {
     );
   }
 
+  renderError(error) {
+    if (error === undefined || error === null || error === '') {
+      return <View />;
+    }
+    return <Text style={{ color: 'red' }}>{error}</Text>;
+  }
+
   render() {
-    const { error, handleSubmit } = this.props;
+    const { error, signupError, handleSubmit } = this.props;
     return (
       <Content padder>
         <Card>
@@ -150,14 +158,14 @@ class SignUpScreen extends Component {
                   <Button
                     block
                     style={styles.signinButtonStyle}
-                    onPress={handleSubmit(this.onSubmit)}
+                    onPress={handleSubmit(this.onSubmit.bind(this))}
                   >
                     <Text style={styles.singinButtonLabelStyle}>Sign up</Text>
                   </Button>
                 </View>
               </Transition>
-              {error !== undefined &&
-                error !== '' && <Text style={{ color: 'red' }}>{error}</Text>}
+              {this.renderError(error)}
+              {this.renderError(signupError)}
             </Body>
           </CardItem>
           <CardItem bordered>
@@ -218,4 +226,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default reduxForm({ form: 'signin', validate })(SignUpScreen);
+const mapStateToProps = state => ({
+  user: state.auth.user,
+  signupError: state.auth.signupError,
+});
+
+const connected = connect(
+  mapStateToProps,
+  { signUp }
+)(SignUpScreen);
+export default reduxForm({ form: 'signin', validate })(connected);

@@ -1,5 +1,5 @@
 import { Auth } from 'aws-amplify';
-import { SIGNIN_SUCCESS } from './types';
+import { SIGNIN_SUCCESS, SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAIL } from './types';
 
 export const signIn = (email, password) => {
   Auth.signInWithPassword(email, password)
@@ -7,7 +7,10 @@ export const signIn = (email, password) => {
     .catch(err => console.log(err));
 };
 
-export const signUp = (username, email, password) => {
+export const signUp = ({ username, email, password }) => dispatch => {
+  dispatch({
+    type: SIGNUP,
+  });
   Auth.signUp({
     username,
     password,
@@ -15,8 +18,18 @@ export const signUp = (username, email, password) => {
       email,
     },
   })
-    .then(data => {
-      console.log(data);
+    .then(user => {
+      console.log(user);
+      dispatch({
+        type: SIGNUP_SUCCESS,
+        payload: user,
+      });
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      console.log(user);
+      dispatch({
+        type: SIGNUP_FAIL,
+        payload: err,
+      });
+    });
 };
