@@ -9,12 +9,32 @@ import {
   RESEND_CODE,
   RESEND_CODE_SUCCESS,
   RESEND_CODE_FAIL,
+  SIGNIN,
+  SIGNIN_SUCCESS,
+  SIGNIN_FAIL,
 } from './types';
 
-export const signIn = (email, password) => {
-  Auth.signInWithPassword(email, password)
-    .then(user => console.log(user))
-    .catch(err => console.log(err));
+export const signIn = ({username, password}, navigation) => dispatch => {
+  dispatch({
+    type: SIGNIN,
+  });
+  Auth.signInWithPassword(username, password)
+    .then(user => {
+      dispatch({
+        type: SIGNIN_SUCCESS,
+        payload: user,
+      });
+      navigation.navigate('Home');
+    })
+    .catch(err => {
+      dispatch({
+        type: SIGNIN_FAIL,
+        payload: err,
+      });
+      if (err.code === 'UserNotConfirmedException') {
+        navigation.navigate('Confirm');
+      }
+    });
 };
 
 export const confirm = ({ username, verifyCode }) => dispatch => {

@@ -108,7 +108,7 @@ class SignUpScreen extends Component {
   }
 
   render() {
-    const { error, signupError, handleSubmit } = this.props;
+    const { error, signUpError, handleSubmit } = this.props;
     return (
       <Content padder>
         <Card>
@@ -162,7 +162,7 @@ class SignUpScreen extends Component {
                 </View>
               </Transition>
               {this.renderError(error)}
-              {this.renderError(signupError)}
+              {this.renderError(signUpError)}
             </Body>
           </CardItem>
           <CardItem bordered>
@@ -225,11 +225,11 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   user: state.auth.user,
-  signupError: state.auth.signupError,
+  signUpError: state.auth.signUpError,
 });
 
 const connected = connect(
   mapStateToProps,
   { signUp }
 )(SignUpScreen);
-export default reduxForm({ form: 'signin', validate })(connected);
+export default reduxForm({ form: 'signIn', validate })(connected);

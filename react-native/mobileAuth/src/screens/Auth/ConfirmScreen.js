@@ -79,6 +79,12 @@ class ConfirmScreen extends Component {
             <Body>
               <Form style={{ alignSelf: 'stretch' }}>
                 <Field
+                  name={'username'}
+                  component={this.renderInput}
+                  label="Username"
+                  editable={false}
+                />
+                <Field
                   name={'verifyCode'}
                   component={this.renderInput}
                   label="Verify Code"
@@ -174,4 +180,4 @@ const connected = connect(
   mapStateToProps,
   { confirm }
 )(ConfirmScreen);
-export default reduxForm({ form: 'signin' })(connected);
+export default reduxForm({ form: 'signIn' })(connected);

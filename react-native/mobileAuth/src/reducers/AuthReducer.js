@@ -5,6 +5,7 @@ import {
   SIGNUP_CONFIRM,
   SIGNUP_CONFIRM_SUCCESS,
   SIGNUP_CONFIRM_FAIL,
+  SIGNIN,
   SIGNIN_SUCCESS,
   SIGNIN_FAIL,
   RESEND_CODE,
@@ -14,7 +15,8 @@ import {
 
 const INITIAL_STATE = {
   user: null,
-  signupError: null,
+  signInError: null,
+  signUpError: null,
   confirmError: null,
   resendSuccess: false,
   resendError: null,
@@ -23,10 +25,25 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   console.log(action);
   switch (action.type) {
+    case SIGNIN:
+      return {
+        ...state,
+        signInError: null,
+      };
+    case SIGNIN_SUCCESS:
+      return {
+        ...state,
+        user: action.payload,
+      };
+    case SIGNIN_FAIL:
+      return {
+        ...state,
+        signInError: action.payload.message,
+      };
     case SIGNUP:
       return {
         ...state,
-        signupError: null,
+        signUpError: null,
       };
     case SIGNUP_SUCCESS:
       return {
@@ -36,7 +53,7 @@ export default (state = INITIAL_STATE, action) => {
     case SIGNUP_FAIL:
       return {
         ...state,
-        signupError: action.payload.message,
+        signUpError: action.payload.message,
       };
     case SIGNUP_CONFIRM:
       return {
@@ -70,14 +87,6 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         resendError: action.payload.message,
         resendSuccess: false,
-      };
-    case SIGNIN_SUCCESS:
-      return {
-        ...state,
-      };
-    case SIGNIN_FAIL:
-      return {
-        ...state,
       };
     default:
       return state;
