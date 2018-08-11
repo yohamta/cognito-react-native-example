@@ -14,9 +14,23 @@ import {
   SIGNIN_FAIL,
 } from './types';
 
-export const signIn = ({username, password}, navigation) => dispatch => {
+const getUserSession = () => {
+  Auth.currentSession()
+    .then(data => {
+      console.log(data);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+const _signIn = (username, password, navigation, dispatch) => {
   dispatch({
     type: SIGNIN,
+    payload: {
+      username,
+      password,
+    },
   });
   Auth.signInWithPassword(username, password)
     .then(user => {
@@ -35,11 +49,18 @@ export const signIn = ({username, password}, navigation) => dispatch => {
         navigation.navigate('Confirm');
       }
     });
+}
+
+export const signIn = ({ username, password }, navigation) => dispatch => {
+  _signIn(username, password, navigation, dispatch);
 };
 
-export const confirm = ({ username, verifyCode }) => dispatch => {
+export const confirm = ({ username, verifyCode }, password, navigation) => dispatch => {
   dispatch({
     type: SIGNUP_CONFIRM,
+    payload: {
+      username,
+    },
   });
   Auth.confirmSignUp(username, verifyCode, {
     forceAliasCreation: true,
@@ -49,6 +70,8 @@ export const confirm = ({ username, verifyCode }) => dispatch => {
         type: SIGNUP_CONFIRM_SUCCESS,
         payload: data,
       });
+      navigation.navigate('SignIn');
+      _signIn(username, password, navigation, dispatch);
     })
     .catch(err => {
       dispatch({
@@ -83,6 +106,11 @@ export const signUp = (
 ) => dispatch => {
   dispatch({
     type: SIGNUP,
+    payload: {
+      username,
+      email,
+      password,
+    },
   });
   Auth.signUp({
     username,

@@ -26,7 +26,7 @@ class ConfirmScreen extends Component {
         _error: 'Confirm Failed !',
       });
     }
-    this.props.confirm(values);
+    this.props.confirm(values, this.props.password, this.props.navigation);
   }
   onResend(values) {
     this.props.resend(values);
@@ -174,10 +174,11 @@ const mapStateToProps = state => ({
   confirmError: state.auth.confirmError,
   resendSuccess: state.auth.resendSuccess,
   resendError: state.auth.resendError,
+  password: state.auth.password,
 });
 
 const connected = connect(
   mapStateToProps,
-  { confirm }
+  { confirm, resend }
 )(ConfirmScreen);
 export default reduxForm({ form: 'signIn' })(connected);

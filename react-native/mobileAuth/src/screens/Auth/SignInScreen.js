@@ -20,6 +20,7 @@ import { signIn } from '../../actions';
 
 class SignInScreen extends Component {
   onSubmit(values) {
+    console.log({ values });
     if (values.username === undefined || values.username === '') {
       throw new SubmissionError({
         email: 'Please Input Username or E-mail Address',
@@ -172,6 +173,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
   user: state.auth.user,
   signInError: state.auth.signInError,
+  username: state.auth.username,
+  password: state.auth.password,
 });
 
 const connected = connect(
