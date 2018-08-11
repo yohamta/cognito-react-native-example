@@ -28,6 +28,9 @@ class ConfirmScreen extends Component {
     }
     this.props.confirm(values);
   }
+  onResend(values) {
+    this.props.resend(values);
+  }
 
   renderInput({
     input,
@@ -59,7 +62,7 @@ class ConfirmScreen extends Component {
   }
 
   render() {
-    const { error, confirmError, handleSubmit } = this.props;
+    const { error, confirmError, resendError, handleSubmit } = this.props;
     return (
       <Content padder>
         <Card>
@@ -106,12 +109,18 @@ class ConfirmScreen extends Component {
                   <Button
                     bordered
                     style={styles.singupButtonStyle}
-                    onPress={() => {
-                      this.props.resend();
-                    }}
+                    onPress={handleSubmit(this.onResend.bind(this))}
                   >
-                    <Text style={styles.singupButtonLabelStyle}>Resend E-mail</Text>
+                    <Text style={styles.singupButtonLabelStyle}>
+                      Resend E-mail
+                    </Text>
                   </Button>
+                  {this.renderError(resendError)}
+                  {this.props.resendSuccess && (
+                    <Text style={{ color: 'green' }}>
+                      E-mail will arrive immediately.
+                    </Text>
+                  )}
                 </View>
               </Transition>
             </Body>
@@ -157,10 +166,12 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
   user: state.auth.user,
   confirmError: state.auth.confirmError,
+  resendSuccess: state.auth.resendSuccess,
+  resendError: state.auth.resendError,
 });
 
 const connected = connect(
   mapStateToProps,
   { confirm }
 )(ConfirmScreen);
-export default reduxForm({ form: 'confirm' })(connected);
+export default reduxForm({ form: 'signin' })(connected);

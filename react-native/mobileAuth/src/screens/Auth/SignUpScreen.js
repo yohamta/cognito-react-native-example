@@ -75,7 +75,7 @@ class SignUpScreen extends Component {
         _error: 'Sign up Failed !',
       });
     }
-    this.props.signUp(values);
+    this.props.signUp(values, this.props.navigation);
   }
 
   renderInput({

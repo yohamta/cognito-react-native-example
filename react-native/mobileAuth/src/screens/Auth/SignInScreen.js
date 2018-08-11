@@ -114,7 +114,7 @@ class SignInScreen extends Component {
                     bordered
                     style={styles.singupButtonStyle}
                     onPress={() => {
-                      this.props.navigation.navigate('Confirm');
+                      this.props.navigation.navigate('SignUp');
                     }}
                   >
                     <Text style={styles.singupButtonLabelStyle}>Sign up</Text>
