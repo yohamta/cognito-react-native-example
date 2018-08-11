@@ -15,12 +15,9 @@ import {
   Left,
   Text,
 } from 'native-base';
-import { signIn } from '../actions';
+import { signIn } from '../../actions';
 
 class SignInScreen extends Component {
-  static navigationOptions = {
-    title: 'Welcome to the App!',
-  };
   onSubmit(values) {
     if (values.email === undefined || values.email === '') {
       throw new SubmissionError({
@@ -117,7 +114,7 @@ class SignInScreen extends Component {
                     bordered
                     style={styles.singupButtonStyle}
                     onPress={() => {
-                      this.props.navigation.navigate('SignUp');
+                      this.props.navigation.navigate('Confirm');
                     }}
                   >
                     <Text style={styles.singupButtonLabelStyle}>Sign up</Text>

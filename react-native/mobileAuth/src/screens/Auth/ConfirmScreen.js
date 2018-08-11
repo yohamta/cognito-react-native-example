@@ -16,69 +16,17 @@ import {
   Text,
 } from 'native-base';
 import { connect } from 'react-redux';
-import { signUp } from '../actions';
-import { validateEmail } from '../utils/Validator';
+import { confirm, resend } from '../../actions';
 
-const validate = values => {
-  const error = {};
-  error.username = '';
-  error.email = '';
-  error.password = '';
-  var un = values.username;
-  var em = values.email;
-  var pw = values.password;
-  var pwc = values.passwordConfirm;
-  if (values.username === undefined) {
-    un = '';
-  }
-  if (values.email === undefined) {
-    em = '';
-  }
-  if (values.password === undefined) {
-    pw = '';
-  }
-  if (values.passwordConfirm === undefined) {
-    pwc = '';
-  }
-  if (un.length > 15 && pw !== '') {
-    error.password = 'Username must be less than 15 char';
-  }
-  if (pw.length < 8 && pw !== '') {
-    error.password = 'Password is too short';
-  }
-  if (pw !== pwc) {
-    error.passwordConfirm = 'Password is not matched';
-  }
-  if (em !== '' && validateEmail(em) === false) {
-    error.email = 'Email format is invalid!';
-  }
-  return error;
-};
-
-class SignUpScreen extends Component {
-  static navigationOptions = {
-    title: 'Welcome to the App!',
-  };
+class ConfirmScreen extends Component {
   onSubmit(values) {
-    if (values.username === undefined || values.username === '') {
+    if (values.verifyCode === undefined || values.verifyCode === '') {
       throw new SubmissionError({
-        email: 'Please Input Username',
-        _error: 'Sign up Failed !',
+        email: 'Please Input Verification Code !',
+        _error: 'Confirm Failed !',
       });
     }
-    if (values.email === undefined || values.email === '') {
-      throw new SubmissionError({
-        email: 'Please Input E-mail Address',
-        _error: 'Sign up Failed !',
-      });
-    }
-    if (values.password === undefined || values.password === '') {
-      throw new SubmissionError({
-        username: 'Please Input Password',
-        _error: 'Sign up Failed !',
-      });
-    }
-    this.props.signUp(values);
+    this.props.confirm(values);
   }
 
   renderInput({
@@ -111,19 +59,16 @@ class SignUpScreen extends Component {
   }
 
   render() {
-    const { error, signupError, handleSubmit } = this.props;
+    const { error, confirmError, handleSubmit } = this.props;
     return (
       <Content padder>
         <Card>
           <CardItem header bordered>
             <Left>
               <Body>
-                <Transition shared="authTitle">
-                  <View>
-                    <Text>Welcome,</Text>
-                    <Text note>Please Sign in to continue</Text>
-                  </View>
-                </Transition>
+                <View>
+                  <Text>Please input verification code</Text>
+                </View>
               </Body>
             </Left>
           </CardItem>
@@ -131,26 +76,9 @@ class SignUpScreen extends Component {
             <Body>
               <Form style={{ alignSelf: 'stretch' }}>
                 <Field
-                  name={'username'}
+                  name={'verifyCode'}
                   component={this.renderInput}
-                  label="Username"
-                />
-                <Field
-                  name={'email'}
-                  component={this.renderInput}
-                  label="E-mail"
-                />
-                <Field
-                  name={'password'}
-                  component={this.renderInput}
-                  label="Password"
-                  secureTextEntry
-                />
-                <Field
-                  name={'passwordConfirm'}
-                  component={this.renderInput}
-                  label="Password Comfirm"
-                  secureTextEntry
+                  label="Verify Code"
                 />
               </Form>
               <Transition shared="authSubmitButton">
@@ -160,12 +88,12 @@ class SignUpScreen extends Component {
                     style={styles.signinButtonStyle}
                     onPress={handleSubmit(this.onSubmit.bind(this))}
                   >
-                    <Text style={styles.singinButtonLabelStyle}>Sign up</Text>
+                    <Text style={styles.singinButtonLabelStyle}>Confirm</Text>
                   </Button>
                 </View>
               </Transition>
               {this.renderError(error)}
-              {this.renderError(signupError)}
+              {this.renderError(confirmError)}
             </Body>
           </CardItem>
           <CardItem bordered>
@@ -173,16 +101,16 @@ class SignUpScreen extends Component {
               <Transition shared="MethodChange">
                 <View>
                   <Label style={styles.noticeLabelStyle}>
-                    Do you have no Account ?
+                    Have you not received E-mail?
                   </Label>
                   <Button
                     bordered
                     style={styles.singupButtonStyle}
                     onPress={() => {
-                      this.props.navigation.navigate('SignIn');
+                      this.props.resend();
                     }}
                   >
-                    <Text style={styles.singupButtonLabelStyle}>Sign in</Text>
+                    <Text style={styles.singupButtonLabelStyle}>Resend E-mail</Text>
                   </Button>
                 </View>
               </Transition>
@@ -228,11 +156,11 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   user: state.auth.user,
-  signupError: state.auth.signupError,
+  confirmError: state.auth.confirmError,
 });
 
 const connected = connect(
   mapStateToProps,
-  { signUp }
-)(SignUpScreen);
-export default reduxForm({ form: 'signin', validate })(connected);
+  { confirm }
+)(ConfirmScreen);
+export default reduxForm({ form: 'confirm' })(connected);

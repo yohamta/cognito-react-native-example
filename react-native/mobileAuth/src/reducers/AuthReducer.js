@@ -3,6 +3,7 @@ import { SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAIL, SIGNIN_SUCCESS, SIGNIN_FAIL } from
 const INITIAL_STATE = {
   user: null,
   signupError: null,
+  confirmError: null,
 };
 
 export default (state = INITIAL_STATE, action) => {

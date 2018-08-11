@@ -7,7 +7,7 @@ export const signIn = (email, password) => {
     .catch(err => console.log(err));
 };
 
-export const signUp = ({ username, email, password }) => dispatch => {
+export const signUp = ({ username, email, password }, navigation) => dispatch => {
   dispatch({
     type: SIGNUP,
   });
@@ -19,14 +19,13 @@ export const signUp = ({ username, email, password }) => dispatch => {
     },
   })
     .then(user => {
-      console.log(user);
       dispatch({
         type: SIGNUP_SUCCESS,
         payload: user,
       });
+      navigation.navigate('Confirm');
     })
     .catch(err => {
-      console.log(user);
       dispatch({
         type: SIGNUP_FAIL,
         payload: err,
