@@ -38,7 +38,7 @@ const _signIn = (username, password, navigation, dispatch) => {
         type: SIGNIN_SUCCESS,
         payload: user,
       });
-      navigation.navigate('Home');
+      navigation.navigate('MainStack');
     })
     .catch(err => {
       dispatch({

@@ -6,8 +6,8 @@ import AuthLoadingScreen from '../screens/Auth/AuthLoadingScreen';
 const SwitchNavigator = createSwitchNavigator(
   {
     AuthLoading: AuthLoadingScreen,
-    AuthStack: { screen: AuthStack },
-    MainStack: { screen: MainStack },
+    Auth: { screen: AuthStack },
+    Main: { screen: MainStack },
   },
   {
     initialRouteName: 'AuthLoading',

@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     borderColor: '#999',
     flexDirection: 'row',
     backgroundColor: 'white',
+    marginHorizontal: 60,
   },
   searchInputIconStyle: {
     padding: 5,

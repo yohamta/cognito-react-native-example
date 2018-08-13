@@ -1,11 +1,6 @@
 import React from 'react';
-import {
-  ActivityIndicator,
-  AsyncStorage,
-  StatusBar,
-  StyleSheet,
-  View,
-} from 'react-native';
+import { Auth } from 'aws-amplify';
+import { View, Text } from 'react-native';
 
 class AuthLoadingScreen extends React.Component {
   constructor(props) {
@@ -14,17 +9,20 @@ class AuthLoadingScreen extends React.Component {
   }
 
   _bootstrapAsync = async () => {
-    //const userToken = await AsyncStorage.getItem('userToken');
-    //this.props.navigation.navigate(userToken ? 'App' : 'Auth');
-    const userToken = null;
-    this.props.navigation.navigate(userToken ? 'App' : 'AuthStack');
+    try {
+      const session = await Auth.currentSession();
+      console.log(session);
+      this.props.navigation.navigate(session !== null ? 'Main' : 'Auth');
+    } catch (err) {
+      console.log(err);
+      this.props.navigation.navigate('Auth');
+    }
   };
 
   render() {
     return (
-      <View style={{ flex: 1, flexDirection: 'row' }}>
-        <ActivityIndicator style={{ alignSelf: 'center' }} />
-        <StatusBar barStyle="default" />
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        <Text style={{ textAlign: 'center' }}>Loading</Text>
       </View>
     );
   }
