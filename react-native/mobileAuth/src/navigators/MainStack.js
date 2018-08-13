@@ -1,15 +1,41 @@
 import React from 'react';
-import { StackNavigator } from 'react-navigation';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { StackNavigator, DrawerNavigator } from 'react-navigation';
+import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import HomeScreen from '../screens/HomeScreen';
+import DrawerContent from './DrawerContent';
 
-const MainStack = StackNavigator(
+const DrawerNavigation = DrawerNavigator(
   {
     HomeScreen: { screen: HomeScreen },
   },
   {
+    contentComponent: DrawerContent,
+    drawerPosition: 'left',
+    drawerWidth: 200,
+  }
+);
+
+const MainStack = StackNavigator(
+  {
+    DrawerNavigation,
+  },
+  {
     navigationOptions: navigator => ({
+      headerLeft: (
+        <TouchableOpacity
+          onPress={() => {
+            navigator.navigation.toggleDrawer();
+          }}
+        >
+          <Icon
+            name="bars"
+            size={20}
+            color="#aaa"
+            style={styles.headerLeftIconStyle}
+          />
+        </TouchableOpacity>
+      ),
       headerTitle: (
         <View style={styles.searchInputContainer}>
           <Icon
@@ -25,11 +51,15 @@ const MainStack = StackNavigator(
           />
         </View>
       ),
+      drawerLockMode: 'locked-open',
     }),
   }
 );
 
 const styles = StyleSheet.create({
+  headerLeftIconStyle: {
+    marginLeft: 15,
+  },
   searchInputContainer: {
     flex: 1,
     borderWidth: 1,
@@ -37,7 +67,6 @@ const styles = StyleSheet.create({
     borderColor: '#999',
     flexDirection: 'row',
     backgroundColor: 'white',
-    marginHorizontal: 60,
   },
   searchInputIconStyle: {
     padding: 5,
