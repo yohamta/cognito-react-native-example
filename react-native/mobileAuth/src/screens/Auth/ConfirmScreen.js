@@ -138,7 +138,7 @@ class ConfirmScreen extends Component {
               {this.renderError(resendError)}
               {this.props.resendSuccess && (
                 <Text style={{ color: 'green' }}>
-                  E-mail will arrive immediately.
+                  E-mail will be sent immediately.
                 </Text>
               )}
             </Body>
