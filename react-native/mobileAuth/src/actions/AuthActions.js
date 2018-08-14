@@ -44,13 +44,14 @@ const _signIn = (username, password, navigation, dispatch) => {
       navigation.navigate('Main');
     })
     .catch(err => {
+      if (err.code === 'UserNotConfirmedException') {
+        navigation.navigate('Confirm');
+        return;
+      }
       dispatch({
         type: SIGNIN_FAIL,
         payload: err,
       });
-      if (err.code === 'UserNotConfirmedException') {
-        navigation.navigate('Confirm');
-      }
     });
 }
 

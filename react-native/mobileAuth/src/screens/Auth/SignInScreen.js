@@ -19,6 +19,7 @@ import {
 import { connect } from 'react-redux';
 import { signIn } from '../../actions';
 import styles from './styles';
+import InputItem from '../../components/Auth/InputItem';
 
 class SignInScreen extends Component {
   onSubmit(values) {
@@ -111,12 +112,12 @@ class SignInScreen extends Component {
               <Form style={{ alignSelf: 'stretch' }}>
                 <Field
                   name={'username'}
-                  component={this.renderInput}
+                  component={InputItem}
                   label="Username"
                 />
                 <Field
                   name={'password'}
-                  component={this.renderInput}
+                  component={InputItem}
                   label="Password"
                   secureTextEntry
                 />
@@ -133,19 +134,15 @@ class SignInScreen extends Component {
               <Label style={styles.noticeLabelStyle}>
                 Do you have no Account ?
               </Label>
-              <Transition shared="MethodChange">
-                <View>
-                  <Button
-                    bordered
-                    style={styles.singupButtonStyle}
-                    onPress={() => {
-                      this.props.navigation.navigate('SignUp');
-                    }}
-                  >
-                    <Text style={styles.singupButtonLabelStyle}>Sign up</Text>
-                  </Button>
-                </View>
-              </Transition>
+              <Button
+                bordered
+                style={styles.singupButtonStyle}
+                onPress={() => {
+                  this.props.navigation.navigate('SignUp');
+                }}
+              >
+                <Text style={styles.singupButtonLabelStyle}>Sign up</Text>
+              </Button>
             </Body>
           </CardItem>
         </Card>

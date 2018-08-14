@@ -20,6 +20,7 @@ import { connect } from 'react-redux';
 import { signUp } from '../../actions';
 import { validateEmail } from '../../utils/Validator';
 import styles from './styles';
+import InputItem from '../../components/Auth/InputItem';
 
 const validate = values => {
   const error = {};
@@ -133,7 +134,7 @@ class SignUpScreen extends Component {
   }
 
   render() {
-    const { error, signUpError, handleSubmit } = this.props;
+    const { error, signUpError } = this.props;
     return (
       <Content padder>
         <Card>
@@ -154,23 +155,19 @@ class SignUpScreen extends Component {
               <Form style={{ alignSelf: 'stretch' }}>
                 <Field
                   name={'username'}
-                  component={this.renderInput}
+                  component={InputItem}
                   label="Username"
                 />
-                <Field
-                  name={'email'}
-                  component={this.renderInput}
-                  label="E-mail"
-                />
+                <Field name={'email'} component={InputItem} label="E-mail" />
                 <Field
                   name={'password'}
-                  component={this.renderInput}
+                  component={InputItem}
                   label="Password"
                   secureTextEntry
                 />
                 <Field
                   name={'passwordConfirm'}
-                  component={this.renderInput}
+                  component={InputItem}
                   label="Password Comfirm"
                   secureTextEntry
                 />
@@ -187,19 +184,15 @@ class SignUpScreen extends Component {
               <Label style={styles.noticeLabelStyle}>
                 Do you have an account already ?
               </Label>
-              <Transition shared="MethodChange">
-                <View>
-                  <Button
-                    bordered
-                    style={styles.singupButtonStyle}
-                    onPress={() => {
-                      this.props.navigation.navigate('SignIn');
-                    }}
-                  >
-                    <Text style={styles.singupButtonLabelStyle}>Sign in</Text>
-                  </Button>
-                </View>
-              </Transition>
+              <Button
+                bordered
+                style={styles.singupButtonStyle}
+                onPress={() => {
+                  this.props.navigation.navigate('SignIn');
+                }}
+              >
+                <Text style={styles.singupButtonLabelStyle}>Sign in</Text>
+              </Button>
             </Body>
           </CardItem>
         </Card>

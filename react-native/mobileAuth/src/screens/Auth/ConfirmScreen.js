@@ -19,6 +19,7 @@ import {
 import { connect } from 'react-redux';
 import { confirm, resend } from '../../actions';
 import styles from './styles';
+import InputItem from '../../components/Auth/InputItem';
 
 class ConfirmScreen extends Component {
   onSubmit(values) {
@@ -105,13 +106,13 @@ class ConfirmScreen extends Component {
               <Form style={{ alignSelf: 'stretch' }}>
                 <Field
                   name={'username'}
-                  component={this.renderInput}
+                  component={InputItem}
                   label="Username"
                   editable={false}
                 />
                 <Field
                   name={'verifyCode'}
-                  component={this.renderInput}
+                  component={InputItem}
                   label="Verify Code"
                 />
               </Form>
@@ -124,28 +125,22 @@ class ConfirmScreen extends Component {
           </CardItem>
           <CardItem bordered>
             <Body>
-              <Transition shared="MethodChange">
-                <View>
-                  <Label style={styles.noticeLabelStyle}>
-                    Have you not received E-mail?
-                  </Label>
-                  <Button
-                    bordered
-                    style={styles.singupButtonStyle}
-                    onPress={handleSubmit(this.onResend.bind(this))}
-                  >
-                    <Text style={styles.singupButtonLabelStyle}>
-                      Resend E-mail
-                    </Text>
-                  </Button>
-                  {this.renderError(resendError)}
-                  {this.props.resendSuccess && (
-                    <Text style={{ color: 'green' }}>
-                      E-mail will arrive immediately.
-                    </Text>
-                  )}
-                </View>
-              </Transition>
+              <Label style={styles.noticeLabelStyle}>
+                Have you not received E-mail?
+              </Label>
+              <Button
+                bordered
+                style={styles.singupButtonStyle}
+                onPress={handleSubmit(this.onResend.bind(this))}
+              >
+                <Text style={styles.singupButtonLabelStyle}>Resend E-mail</Text>
+              </Button>
+              {this.renderError(resendError)}
+              {this.props.resendSuccess && (
+                <Text style={{ color: 'green' }}>
+                  E-mail will arrive immediately.
+                </Text>
+              )}
             </Body>
           </CardItem>
         </Card>
