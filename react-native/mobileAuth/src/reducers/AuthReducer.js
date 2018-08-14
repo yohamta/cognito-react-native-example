@@ -14,6 +14,12 @@ import {
   SIGNOUT,
   SIGNOUT_SUCCESS,
   SIGNOUT_FAIL,
+  CHANGE_PASSWORD,
+  CHANGE_PASSWORD_SUCCESS,
+  CHANGE_PASSWORD_FAIL,
+  UPDATE_ATTRIBUTES,
+  UPDATE_ATTRIBUTES_SUCCESS,
+  UPDATE_ATTRIBUTES_FAIL,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -27,11 +33,11 @@ const INITIAL_STATE = {
   username: null,
   email: null,
   password: null,
-  loading: false
+  loading: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
-  console.log({action, state});
+  console.log({ action, state });
   switch (action.type) {
     case SIGNIN:
       return {

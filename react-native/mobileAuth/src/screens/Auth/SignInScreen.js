@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
 import { Transition } from 'react-navigation-fluid-transitions';
 import {
@@ -18,6 +18,7 @@ import {
 } from 'native-base';
 import { connect } from 'react-redux';
 import { signIn } from '../../actions';
+import styles from './styles';
 
 class SignInScreen extends Component {
   onSubmit(values) {
@@ -153,39 +154,6 @@ class SignInScreen extends Component {
     );
   }
 }
-
-const colors = {
-  gray: '#ABB8C3',
-  vivid: '#E91E63',
-};
-
-const styles = StyleSheet.create({
-  noticeLabelStyle: {
-    color: colors.gray,
-    marginBottom: 10,
-  },
-  labelStyle: {
-    color: colors.gray,
-  },
-  inputItemStyle: {
-    borderBottomColor: colors.vivid,
-  },
-  signinButtonStyle: {
-    marginTop: 10,
-    width: 100,
-    backgroundColor: colors.vivid,
-  },
-  signinButtonLabelStyle: {
-    color: 'white',
-  },
-  singupButtonStyle: {
-    borderColor: colors.vivid,
-    marginTop: 10,
-  },
-  singupButtonLabelStyle: {
-    color: colors.vivid,
-  },
-});
 
 const mapStateToProps = state => ({
   user: state.auth.user,
