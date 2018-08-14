@@ -12,6 +12,9 @@ import {
   SIGNIN,
   SIGNIN_SUCCESS,
   SIGNIN_FAIL,
+  SIGNOUT,
+  SIGNOUT_SUCCESS,
+  SIGNOUT_FAIL,
 } from './types';
 
 const getUserSession = () => {
@@ -38,7 +41,7 @@ const _signIn = (username, password, navigation, dispatch) => {
         type: SIGNIN_SUCCESS,
         payload: user,
       });
-      navigation.navigate('MainStack');
+      navigation.navigate('Main');
     })
     .catch(err => {
       dispatch({
@@ -53,6 +56,25 @@ const _signIn = (username, password, navigation, dispatch) => {
 
 export const signIn = ({ username, password }, navigation) => dispatch => {
   _signIn(username, password, navigation, dispatch);
+};
+
+export const signOut = (navigation) => dispatch => {
+  dispatch({
+    type: SIGNOUT,
+  });
+  Auth.signOut()
+    .then(() => {
+      dispatch({
+        type: SIGNOUT_SUCCESS,
+      });
+      navigation.navigate('SignIn');
+    })
+    .catch(err => {
+      dispatch({
+        type: SIGNOUT_FAIL,
+        payload: err,
+      });
+    });
 };
 
 export const confirm = ({ username, verifyCode }, password, navigation) => dispatch => {

@@ -11,6 +11,9 @@ import {
   RESEND_CODE,
   RESEND_CODE_SUCCESS,
   RESEND_CODE_FAIL,
+  SIGNOUT,
+  SIGNOUT_SUCCESS,
+  SIGNOUT_FAIL,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -18,6 +21,7 @@ const INITIAL_STATE = {
   signInError: null,
   signUpError: null,
   confirmError: null,
+  signOutError: null,
   resendSuccess: false,
   resendError: null,
   username: null,
@@ -104,6 +108,22 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         resendError: action.payload.message,
         resendSuccess: false,
+        loading: false,
+      };
+    case SIGNOUT:
+      return {
+        ...state,
+        signOutError: null,
+        loading: true,
+      };
+    case SIGNOUT_SUCCESS:
+      return {
+        ...INITIAL_STATE,
+      };
+    case SIGNOUT_FAIL:
+      return {
+        ...state,
+        signOutError: action.payload.message,
         loading: false,
       };
     default:

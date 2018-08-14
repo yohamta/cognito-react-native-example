@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavigationActions } from 'react-navigation';
 import { ScrollView, TouchableOpacity, Text, View } from 'react-native';
-import { Button } from 'native-base';
+import { signOut } from '../actions';
 import Icon from 'react-native-vector-icons/Octicons';
 
 class DrawerContent extends Component {
@@ -15,7 +15,11 @@ class DrawerContent extends Component {
     return (
       <View style={styles.containerStyle}>
         <ScrollView>
-          <TouchableOpacity key="signout">
+          <TouchableOpacity key="signout"
+            onPress={()=>{
+              signOut(this.props.navigation);
+            }}
+          >
             <View style={{ flexDirection: 'row' }}>
               <Icon
                 name="sign-in" // FIXME: this is octicon's bug
@@ -39,4 +43,12 @@ const styles = {
   },
 };
 
-export default DrawerContent;
+const mapStateToProps = state => ({
+  signOutError: state.auth.signOutError,
+});
+
+import { connect } from 'react-redux';
+export default connect(
+  mapStateToProps,
+  { signOut }
+)(DrawerContent);
