@@ -14,6 +14,7 @@ import {
   Button,
   Left,
   Text,
+  Spinner,
 } from 'native-base';
 import { connect } from 'react-redux';
 import { signUp } from '../../actions';
@@ -107,6 +108,29 @@ class SignUpScreen extends Component {
     return <Text style={{ color: 'red' }}>{error}</Text>;
   }
 
+  renderSubmitButton() {
+    const { handleSubmit } = this.props;
+    if (this.props.loading) {
+      return (
+        <Button
+          block
+          style={[styles.signinButtonStyle, { backgroundColor: 'orange' }]}
+        >
+          <Spinner color="white" size="small" />
+        </Button>
+      );
+    }
+    return (
+      <Button
+        block
+        style={styles.signinButtonStyle}
+        onPress={handleSubmit(this.onSubmit.bind(this))}
+      >
+        <Text style={styles.singinButtonLabelStyle}>Sign up</Text>
+      </Button>
+    );
+  }
+
   render() {
     const { error, signUpError, handleSubmit } = this.props;
     return (
@@ -152,13 +176,7 @@ class SignUpScreen extends Component {
               </Form>
               <Transition shared="authSubmitButton">
                 <View>
-                  <Button
-                    block
-                    style={styles.signinButtonStyle}
-                    onPress={handleSubmit(this.onSubmit.bind(this))}
-                  >
-                    <Text style={styles.singinButtonLabelStyle}>Sign up</Text>
-                  </Button>
+                  {this.renderSubmitButton()}
                 </View>
               </Transition>
               {this.renderError(error)}
@@ -209,6 +227,7 @@ const styles = StyleSheet.create({
   },
   signinButtonStyle: {
     marginTop: 10,
+    width: 100,
     backgroundColor: colors.vivid,
   },
   signinButtonLabelStyle: {

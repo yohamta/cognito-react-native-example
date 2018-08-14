@@ -14,6 +14,7 @@ import {
   Button,
   Left,
   Text,
+  Spinner,
 } from 'native-base';
 import { connect } from 'react-redux';
 import { confirm, resend } from '../../actions';
@@ -61,6 +62,29 @@ class ConfirmScreen extends Component {
     return <Text style={{ color: 'red' }}>{error}</Text>;
   }
 
+  renderSubmitButton() {
+    const { handleSubmit } = this.props;
+    if (this.props.loading) {
+      return (
+        <Button
+          block
+          style={[styles.signinButtonStyle, { backgroundColor: 'orange' }]}
+        >
+          <Spinner color="white" size="small" />
+        </Button>
+      );
+    }
+    return (
+      <Button
+        block
+        style={styles.signinButtonStyle}
+        onPress={handleSubmit(this.onSubmit.bind(this))}
+      >
+        <Text style={styles.singinButtonLabelStyle}>Confirm</Text>
+      </Button>
+    );
+  }
+
   render() {
     const { error, confirmError, resendError, handleSubmit } = this.props;
     return (
@@ -91,15 +115,7 @@ class ConfirmScreen extends Component {
                 />
               </Form>
               <Transition shared="authSubmitButton">
-                <View>
-                  <Button
-                    block
-                    style={styles.signinButtonStyle}
-                    onPress={handleSubmit(this.onSubmit.bind(this))}
-                  >
-                    <Text style={styles.singinButtonLabelStyle}>Confirm</Text>
-                  </Button>
-                </View>
+                <View>{this.renderSubmitButton()}</View>
               </Transition>
               {this.renderError(error)}
               {this.renderError(confirmError)}
@@ -155,6 +171,7 @@ const styles = StyleSheet.create({
   },
   signinButtonStyle: {
     marginTop: 10,
+    width: 100,
     backgroundColor: colors.vivid,
   },
   signinButtonLabelStyle: {

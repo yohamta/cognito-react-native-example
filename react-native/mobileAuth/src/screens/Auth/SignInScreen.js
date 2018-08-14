@@ -14,6 +14,7 @@ import {
   Button,
   Left,
   Text,
+  Spinner,
 } from 'native-base';
 import { connect } from 'react-redux';
 import { signIn } from '../../actions';
@@ -65,8 +66,31 @@ class SignInScreen extends Component {
     return <Text style={{ color: 'red' }}>{error}</Text>;
   }
 
+  renderSubmitButton() {
+    const { handleSubmit } = this.props;
+    if (this.props.loading) {
+      return (
+        <Button
+          block
+          style={[styles.signinButtonStyle, { backgroundColor: 'orange' }]}
+        >
+          <Spinner color="white" size="small" />
+        </Button>
+      );
+    }
+    return (
+      <Button
+        block
+        style={styles.signinButtonStyle}
+        onPress={handleSubmit(this.onSubmit.bind(this))}
+      >
+        <Text style={styles.singinButtonLabelStyle}>Sign in</Text>
+      </Button>
+    );
+  }
+
   render() {
-    const { error, signInError, handleSubmit } = this.props;
+    const { error, signInError } = this.props;
     return (
       <Content padder>
         <Card>
@@ -98,15 +122,7 @@ class SignInScreen extends Component {
                 />
               </Form>
               <Transition shared="authSubmitButton" appear="scale">
-                <View>
-                  <Button
-                    block
-                    style={styles.signinButtonStyle}
-                    onPress={handleSubmit(this.onSubmit.bind(this))}
-                  >
-                    <Text style={styles.singinButtonLabelStyle}>Sign in</Text>
-                  </Button>
-                </View>
+                <View>{this.renderSubmitButton()}</View>
               </Transition>
               {this.renderError(error)}
               {this.renderError(signInError)}
@@ -156,6 +172,7 @@ const styles = StyleSheet.create({
   },
   signinButtonStyle: {
     marginTop: 10,
+    width: 100,
     backgroundColor: colors.vivid,
   },
   signinButtonLabelStyle: {
@@ -175,6 +192,7 @@ const mapStateToProps = state => ({
   signInError: state.auth.signInError,
   username: state.auth.username,
   password: state.auth.password,
+  loading: state.auth.loading,
 });
 
 const connected = connect(

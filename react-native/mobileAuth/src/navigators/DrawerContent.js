@@ -17,7 +17,7 @@ class DrawerContent extends Component {
         <ScrollView>
           <TouchableOpacity key="signout"
             onPress={()=>{
-              signOut(this.props.navigation);
+              this.props.signOut(this.props.navigation);
             }}
           >
             <View style={{ flexDirection: 'row' }}>

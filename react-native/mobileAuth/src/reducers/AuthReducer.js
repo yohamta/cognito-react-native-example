@@ -118,6 +118,7 @@ export default (state = INITIAL_STATE, action) => {
       };
     case SIGNOUT_SUCCESS:
       return {
+        ...state,
         ...INITIAL_STATE,
       };
     case SIGNOUT_FAIL:
