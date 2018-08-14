@@ -8,6 +8,7 @@ export default class HomeScreen extends Component {
   };
 
   componentDidMount() {
+    console.log("componentDidMount");
     Animated.timing(this.state.fadeAnim, {
       toValue: 1,
       duration: 1000,
@@ -15,10 +16,13 @@ export default class HomeScreen extends Component {
   }
 
   render() {
+    const { fadeAnim } = this.state;
     return (
       <Container>
         <Content contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
-          <Text style={{ textAlign: 'center' }}>This is Home Screen</Text>
+          <Animated.View style={{ opacity: fadeAnim }}>
+            <Text style={{ textAlign: 'center' }}>This is Home Screen</Text>
+          </Animated.View>
         </Content>
       </Container>
     );
