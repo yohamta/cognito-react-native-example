@@ -37,7 +37,6 @@ const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, action) => {
-  console.log({ action, state });
   switch (action.type) {
     case SIGNIN:
       return {

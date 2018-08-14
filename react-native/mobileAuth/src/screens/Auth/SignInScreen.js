@@ -22,7 +22,6 @@ import styles from './styles';
 
 class SignInScreen extends Component {
   onSubmit(values) {
-    console.log({ values });
     if (values.username === undefined || values.username === '') {
       throw new SubmissionError({
         username: 'Please Input Username or E-mail Address',
