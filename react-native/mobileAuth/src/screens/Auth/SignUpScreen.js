@@ -43,7 +43,7 @@ const validate = values => {
   if (values.passwordConfirm === undefined) {
     pwc = '';
   }
-  if (un.length > 15 && pw !== '') {
+  if (un.length > 15 && un !== '') {
     error.password = 'Username must be less than 15 char';
   }
   if (pw.length < 8 && pw !== '') {
@@ -79,28 +79,6 @@ class SignUpScreen extends Component {
       });
     }
     this.props.signUp(values, this.props.navigation);
-  }
-
-  renderInput({
-    input,
-    label,
-    type,
-    meta: { touched, error, warning },
-    ...inputProps
-  }) {
-    var hasError = false;
-    if (error !== undefined) {
-      hasError = true;
-    }
-    return (
-      <React.Fragment>
-        <Item stackedLabel style={styles.inputItemStyle} error={hasError}>
-          <Label style={styles.labelStyle}>{label}</Label>
-          <Input {...input} {...inputProps} />
-        </Item>
-        {hasError ? <Text style={{ color: 'red' }}>{error}</Text> : <Text />}
-      </React.Fragment>
-    );
   }
 
   renderError(error) {

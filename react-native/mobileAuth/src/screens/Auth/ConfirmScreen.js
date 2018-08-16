@@ -35,28 +35,6 @@ class ConfirmScreen extends Component {
     this.props.resend(values);
   }
 
-  renderInput({
-    input,
-    label,
-    type,
-    meta: { touched, error, warning },
-    ...inputProps
-  }) {
-    var hasError = false;
-    if (error !== undefined) {
-      hasError = true;
-    }
-    return (
-      <React.Fragment>
-        <Item stackedLabel style={styles.inputItemStyle} error={hasError}>
-          <Label style={styles.labelStyle}>{label}</Label>
-          <Input {...input} {...inputProps} />
-        </Item>
-        {hasError ? <Text style={{ color: 'red' }}>{error}</Text> : <Text />}
-      </React.Fragment>
-    );
-  }
-
   renderError(error) {
     if (error === undefined || error === null || error === '') {
       return <View />;
