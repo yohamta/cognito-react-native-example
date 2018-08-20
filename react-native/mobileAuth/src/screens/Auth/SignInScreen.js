@@ -8,13 +8,10 @@ import {
   CardItem,
   Body,
   Form,
-  Item,
-  Input,
   Label,
   Button,
   Left,
   Text,
-  Spinner,
 } from 'native-base';
 import { connect } from 'react-redux';
 import { signIn } from '../../actions';
@@ -44,29 +41,6 @@ class SignInScreen extends Component {
       return <View />;
     }
     return <Text style={{ color: 'red' }}>{error}</Text>;
-  }
-
-  renderSubmitButton() {
-    const { handleSubmit } = this.props;
-    if (this.props.loading) {
-      return (
-        <Button
-          block
-          style={[styles.signinButtonStyle, { backgroundColor: 'orange' }]}
-        >
-          <Spinner color="white" size="small" />
-        </Button>
-      );
-    }
-    return (
-      <Button
-        block
-        style={styles.signinButtonStyle}
-        onPress={handleSubmit(this.onSubmit.bind(this))}
-      >
-        <Text style={styles.singinButtonLabelStyle}>Sign in</Text>
-      </Button>
-    );
   }
 
   render() {
@@ -106,7 +80,7 @@ class SignInScreen extends Component {
                   <PrimaryButton
                     onPress={this.props.handleSubmit(this.onSubmit.bind(this))}
                     loading={this.props.loading}
-                    text="Sign Up"
+                    text="Sign In"
                   />
                 </View>
               </Transition>
