@@ -20,6 +20,7 @@ import { connect } from 'react-redux';
 import { signIn } from '../../actions';
 import styles from './styles';
 import InputItem from '../../components/Auth/InputItem';
+import PrimaryButton from '../../components/common/PrimaryButton';
 
 class SignInScreen extends Component {
   onSubmit(values) {
@@ -101,7 +102,13 @@ class SignInScreen extends Component {
                 />
               </Form>
               <Transition shared="authSubmitButton" appear="scale">
-                <View>{this.renderSubmitButton()}</View>
+                <View>
+                  <PrimaryButton
+                    onPress={this.props.handleSubmit(this.onSubmit.bind(this))}
+                    loading={this.props.loading}
+                    text="Sign Up"
+                  />
+                </View>
               </Transition>
               {this.renderError(error)}
               {this.renderError(signInError)}
