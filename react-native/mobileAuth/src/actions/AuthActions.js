@@ -15,6 +15,12 @@ import {
   SIGNOUT,
   SIGNOUT_SUCCESS,
   SIGNOUT_FAIL,
+  CHANGE_PASSWORD,
+  CHANGE_PASSWORD_SUCCESS,
+  CHANGE_PASSWORD_FAIL,
+  UPDATE_ATTRIBUTES,
+  UPDATE_ATTRIBUTES_SUCCESS,
+  UPDATE_ATTRIBUTES_FAIL,
 } from './types';
 
 const getUserSession = () => {
@@ -53,13 +59,13 @@ const _signIn = (username, password, navigation, dispatch) => {
         payload: err,
       });
     });
-}
+};
 
 export const signIn = ({ username, password }, navigation) => dispatch => {
   _signIn(username, password, navigation, dispatch);
 };
 
-export const signOut = (navigation) => dispatch => {
+export const signOut = navigation => dispatch => {
   dispatch({
     type: SIGNOUT,
   });
@@ -78,7 +84,11 @@ export const signOut = (navigation) => dispatch => {
     });
 };
 
-export const confirm = ({ username, verifyCode }, password, navigation) => dispatch => {
+export const confirm = (
+  { username, verifyCode },
+  password,
+  navigation
+) => dispatch => {
   dispatch({
     type: SIGNUP_CONFIRM,
     payload: {
@@ -152,6 +162,28 @@ export const signUp = (
     .catch(err => {
       dispatch({
         type: SIGNUP_FAIL,
+        payload: err,
+      });
+    });
+};
+
+export const changePassword = ({ oldPassword, password }) => dispatch => {
+  dispatch({
+    type: CHANGE_PASSWORD,
+  });
+  Auth.currentAuthenticatedUser()
+    .then(user => {
+      return Auth.changePassword(user, oldPassword, password);
+    })
+    .then(data => {
+      dispatch({
+        type: CHANGE_PASSWORD_SUCCESS,
+        payload: data,
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: CHANGE_PASSWORD_FAIL,
         payload: err,
       });
     });

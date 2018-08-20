@@ -28,6 +28,8 @@ const INITIAL_STATE = {
   signUpError: null,
   confirmError: null,
   signOutError: null,
+  changePasswordSuccess: false,
+  changePasswordError: null,
   resendSuccess: false,
   resendError: null,
   username: null,
@@ -130,6 +132,27 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         signOutError: action.payload.message,
+        loading: false,
+      };
+    case CHANGE_PASSWORD:
+      return {
+        ...state,
+        changePasswordSuccess: false,
+        changePasswordError: null,
+        loading: true,
+      };
+    case CHANGE_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        changePasswordSuccess: true,
+        changePasswordError: null,
+        loading: false,
+      };
+    case CHANGE_PASSWORD_FAIL:
+      return {
+        ...state,
+        changePasswordSuccess: false,
+        changePasswordError: action.payload.message,
         loading: false,
       };
     default:

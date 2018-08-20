@@ -11,12 +11,14 @@ class DrawerContent extends Component {
     });
     this.props.navigation.dispatch(navigate);
   };
+
   render() {
     return (
       <View style={styles.containerStyle}>
         <ScrollView>
-          <TouchableOpacity key="signout"
-            onPress={()=>{
+          <TouchableOpacity
+            key="signout"
+            onPress={() => {
               this.props.signOut(this.props.navigation);
             }}
           >
@@ -28,6 +30,22 @@ class DrawerContent extends Component {
                 style={{ margin: 15, width: 20 }}
               />
               <Text style={{ color: 'white', marginTop: 17 }}>Sign Out</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            key="changePassword"
+            onPress={() => {
+              this.props.navigation.navigate('ChangePassword');
+            }}
+          >
+            <View style={{ flexDirection: 'row' }}>
+              <Icon
+                name="kebab-vertical" // FIXME: this is octicon's bug
+                size={20}
+                color="white"
+                style={{ margin: 15, width: 20 }}
+              />
+              <Text style={{ color: 'white', marginTop: 17 }}>Change Password</Text>
             </View>
           </TouchableOpacity>
         </ScrollView>

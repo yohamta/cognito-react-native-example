@@ -4,10 +4,12 @@ import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import HomeScreen from '../screens/HomeScreen';
 import DrawerContent from './DrawerContent';
+import ChangePasswordScreen from '../screens/Auth/ChangePasswordScreen';
 
 const DrawerNavigation = DrawerNavigator(
   {
     HomeScreen: { screen: HomeScreen },
+    ChangePassword: { screen: ChangePasswordScreen },
   },
   {
     contentComponent: DrawerContent,

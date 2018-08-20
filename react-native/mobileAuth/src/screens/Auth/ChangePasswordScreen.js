@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { Transition } from 'react-navigation-fluid-transitions';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
 import {
   Content,
@@ -8,17 +7,13 @@ import {
   CardItem,
   Body,
   Form,
-  Item,
-  Input,
-  Label,
   Button,
   Left,
   Text,
   Spinner,
 } from 'native-base';
 import { connect } from 'react-redux';
-import { signUp } from '../../actions';
-import { validateEmail } from '../../utils/Validator';
+import { changePassword } from '../../actions';
 import styles from './styles';
 import InputItem from '../../components/Auth/InputItem';
 
@@ -42,49 +37,21 @@ const validate = values => {
   return error;
 };
 
-class SignUpScreen extends Component {
+class ChangePasswordScreen extends Component {
   onSubmit(values) {
-    if (values.username === undefined || values.username === '') {
+    if (values.oldPassword === undefined || values.oldPassword === '') {
       throw new SubmissionError({
-        email: 'Please Input Username',
-        _error: 'Sign up Failed !',
-      });
-    }
-    if (values.email === undefined || values.email === '') {
-      throw new SubmissionError({
-        email: 'Please Input E-mail Address',
-        _error: 'Sign up Failed !',
+        password: 'Please Input Old Password',
+        _error: 'Change Password Failed !',
       });
     }
     if (values.password === undefined || values.password === '') {
       throw new SubmissionError({
         password: 'Please Input Password',
-        _error: 'Sign up Failed !',
+        _error: 'Change Password Failed !',
       });
     }
-    this.props.signUp(values, this.props.navigation);
-  }
-
-  renderInput({
-    input,
-    label,
-    type,
-    meta: { touched, error, warning },
-    ...inputProps
-  }) {
-    var hasError = false;
-    if (error !== undefined) {
-      hasError = true;
-    }
-    return (
-      <React.Fragment>
-        <Item stackedLabel style={styles.inputItemStyle} error={hasError}>
-          <Label style={styles.labelStyle}>{label}</Label>
-          <Input {...input} {...inputProps} />
-        </Item>
-        {hasError ? <Text style={{ color: 'red' }}>{error}</Text> : <Text />}
-      </React.Fragment>
-    );
+    this.props.changePassword(values);
   }
 
   renderError(error) {
@@ -109,40 +76,28 @@ class SignUpScreen extends Component {
     return (
       <Button
         block
-        style={styles.signinButtonStyle}
+        style={[styles.signinButtonStyle, { width: 200 }]}
         onPress={handleSubmit(this.onSubmit.bind(this))}
       >
-        <Text style={styles.singinButtonLabelStyle}>Sign up</Text>
+        <Text style={styles.singinButtonLabelStyle}>Change Password</Text>
       </Button>
     );
   }
 
   render() {
-    const { error, signUpError } = this.props;
+    const { error, changePasswordError } = this.props;
     return (
       <Content padder>
         <Card>
-          <CardItem header bordered>
-            <Left>
-              <Body>
-                <Transition shared="authTitle">
-                  <View>
-                    <Text>Welcome,</Text>
-                    <Text note>Please Sign in to continue</Text>
-                  </View>
-                </Transition>
-              </Body>
-            </Left>
-          </CardItem>
           <CardItem bordered>
             <Body>
               <Form style={{ alignSelf: 'stretch' }}>
                 <Field
-                  name={'username'}
+                  name={'oldPassword'}
                   component={InputItem}
-                  label="Username"
+                  label="Old Password"
+                  secureTextEntry
                 />
-                <Field name={'email'} component={InputItem} label="E-mail" />
                 <Field
                   name={'password'}
                   component={InputItem}
@@ -156,27 +111,14 @@ class SignUpScreen extends Component {
                   secureTextEntry
                 />
               </Form>
-              <Transition shared="authSubmitButton">
-                <View>{this.renderSubmitButton()}</View>
-              </Transition>
+              <View>{this.renderSubmitButton()}</View>
               {this.renderError(error)}
-              {this.renderError(signUpError)}
-            </Body>
-          </CardItem>
-          <CardItem bordered>
-            <Body>
-              <Label style={styles.noticeLabelStyle}>
-                Do you have an account already ?
-              </Label>
-              <Button
-                bordered
-                style={styles.singupButtonStyle}
-                onPress={() => {
-                  this.props.navigation.navigate('SignIn');
-                }}
-              >
-                <Text style={styles.singupButtonLabelStyle}>Sign in</Text>
-              </Button>
+              {this.renderError(changePasswordError)}
+              {this.props.changePasswordSuccess && (
+                <Text style={{ color: 'green' }}>
+                  Password changed successfully.
+                </Text>
+              )}
             </Body>
           </CardItem>
         </Card>
@@ -187,11 +129,12 @@ class SignUpScreen extends Component {
 
 const mapStateToProps = state => ({
   user: state.auth.user,
-  signUpError: state.auth.signUpError,
+  changePasswordSuccess: state.auth.changePasswordSuccess,
+  changePasswordError: state.auth.changePasswordError,
 });
 
 const connected = connect(
   mapStateToProps,
-  { signUp }
-)(SignUpScreen);
-export default reduxForm({ form: 'signIn', validate })(connected);
+  { changePassword }
+)(ChangePasswordScreen);
+export default reduxForm({ form: 'changePassword', validate })(connected);
