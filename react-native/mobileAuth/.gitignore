@@ -57,3 +57,7 @@ buck-out/
 
 # aws
 aws-exports.js
+
+# Jest
+#
+.jest/
