@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Component } from 'react';
 import { NavigationActions } from 'react-navigation';
 import { ScrollView, TouchableOpacity, Text, View } from 'react-native';
 import { signOut } from '../actions';

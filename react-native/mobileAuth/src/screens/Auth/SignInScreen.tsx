@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Component } from 'react';
 import { View } from 'react-native';
-import { Transition } from 'react-navigation-fluid-transitions';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
+import { Transition } from 'react-navigation-fluid-transitions';
 import {
   Content,
   Card,
@@ -14,69 +15,26 @@ import {
   Text,
 } from 'native-base';
 import { connect } from 'react-redux';
-import { signUp } from '../../actions';
-import { validateEmail } from '../../utils/Validator';
+import { signIn } from '../../actions';
 import styles from './styles';
 import InputItem from '../../components/Auth/InputItem';
 import PrimaryButton from '../../components/common/PrimaryButton';
 
-const validate = values => {
-  const error = {};
-  error.username = '';
-  error.email = '';
-  error.password = '';
-  var un = values.username;
-  var em = values.email;
-  var pw = values.password;
-  var pwc = values.passwordConfirm;
-  if (values.username === undefined) {
-    un = '';
-  }
-  if (values.email === undefined) {
-    em = '';
-  }
-  if (values.password === undefined) {
-    pw = '';
-  }
-  if (values.passwordConfirm === undefined) {
-    pwc = '';
-  }
-  if (un.length > 15 && un !== '') {
-    error.username = 'Username must be less than 15 char';
-  }
-  if (pw.length < 8 && pw !== '') {
-    error.password = 'Password is too short';
-  }
-  if (pw !== pwc) {
-    error.passwordConfirm = 'Password is not matched';
-  }
-  if (em !== '' && validateEmail(em) === false) {
-    error.email = 'Email format is invalid!';
-  }
-  return error;
-};
-
-class SignUpScreen extends Component {
+class SignInScreen extends Component {
   onSubmit(values) {
     if (values.username === undefined || values.username === '') {
       throw new SubmissionError({
-        email: 'Please Input Username',
-        _error: 'Sign up Failed !',
-      });
-    }
-    if (values.email === undefined || values.email === '') {
-      throw new SubmissionError({
-        email: 'Please Input E-mail Address',
-        _error: 'Sign up Failed !',
+        username: 'Please Input Username or E-mail Address',
+        _error: 'Sign in Failed !',
       });
     }
     if (values.password === undefined || values.password === '') {
       throw new SubmissionError({
         password: 'Please Input Password',
-        _error: 'Sign up Failed !',
+        _error: 'Sign in Failed !',
       });
     }
-    this.props.signUp(values, this.props.navigation);
+    this.props.signIn(values, this.props.navigation);
   }
 
   renderError(error) {
@@ -87,7 +45,7 @@ class SignUpScreen extends Component {
   }
 
   render() {
-    const { error, signUpError } = this.props;
+    const { error, signInError } = this.props;
     return (
       <Content padder>
         <Card>
@@ -111,46 +69,39 @@ class SignUpScreen extends Component {
                   component={InputItem}
                   label="Username"
                 />
-                <Field name={'email'} component={InputItem} label="E-mail" />
                 <Field
                   name={'password'}
                   component={InputItem}
                   label="Password"
                   secureTextEntry
                 />
-                <Field
-                  name={'passwordConfirm'}
-                  component={InputItem}
-                  label="Password Comfirm"
-                  secureTextEntry
-                />
               </Form>
-              <Transition shared="authSubmitButton">
+              <Transition shared="authSubmitButton" appear="scale">
                 <View>
                   <PrimaryButton
                     onPress={this.props.handleSubmit(this.onSubmit.bind(this))}
                     loading={this.props.loading}
-                    text="Sign Up"
+                    text="Sign In"
                   />
                 </View>
               </Transition>
               {this.renderError(error)}
-              {this.renderError(signUpError)}
+              {this.renderError(signInError)}
             </Body>
           </CardItem>
           <CardItem bordered>
             <Body>
               <Label style={styles.noticeLabelStyle}>
-                Do you have an account already ?
+                Do you have no Account ?
               </Label>
               <Button
                 bordered
                 style={styles.singupButtonStyle}
                 onPress={() => {
-                  this.props.navigation.navigate('SignIn');
+                  this.props.navigation.navigate('SignUp');
                 }}
               >
-                <Text style={styles.singupButtonLabelStyle}>Sign in</Text>
+                <Text style={styles.singupButtonLabelStyle}>Sign up</Text>
               </Button>
             </Body>
           </CardItem>
@@ -162,11 +113,14 @@ class SignUpScreen extends Component {
 
 const mapStateToProps = state => ({
   user: state.auth.user,
-  signUpError: state.auth.signUpError,
+  signInError: state.auth.signInError,
+  username: state.auth.username,
+  password: state.auth.password,
+  loading: state.auth.loading,
 });
 
 const connected = connect(
   mapStateToProps,
-  { signUp }
-)(SignUpScreen);
-export default reduxForm({ form: 'signIn', validate })(connected);
+  { signIn }
+)(SignInScreen);
+export default reduxForm({ form: 'signIn' })(connected);
