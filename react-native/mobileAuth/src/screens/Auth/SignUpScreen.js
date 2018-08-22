@@ -8,19 +8,17 @@ import {
   CardItem,
   Body,
   Form,
-  Item,
-  Input,
   Label,
   Button,
   Left,
   Text,
-  Spinner,
 } from 'native-base';
 import { connect } from 'react-redux';
 import { signUp } from '../../actions';
 import { validateEmail } from '../../utils/Validator';
 import styles from './styles';
 import InputItem from '../../components/Auth/InputItem';
+import PrimaryButton from '../../components/common/PrimaryButton';
 
 const validate = values => {
   const error = {};
@@ -44,7 +42,7 @@ const validate = values => {
     pwc = '';
   }
   if (un.length > 15 && un !== '') {
-    error.password = 'Username must be less than 15 char';
+    error.username = 'Username must be less than 15 char';
   }
   if (pw.length < 8 && pw !== '') {
     error.password = 'Password is too short';
@@ -88,29 +86,6 @@ class SignUpScreen extends Component {
     return <Text style={{ color: 'red' }}>{error}</Text>;
   }
 
-  renderSubmitButton() {
-    const { handleSubmit } = this.props;
-    if (this.props.loading) {
-      return (
-        <Button
-          block
-          style={[styles.signinButtonStyle, { backgroundColor: 'orange' }]}
-        >
-          <Spinner color="white" size="small" />
-        </Button>
-      );
-    }
-    return (
-      <Button
-        block
-        style={styles.signinButtonStyle}
-        onPress={handleSubmit(this.onSubmit.bind(this))}
-      >
-        <Text style={styles.singinButtonLabelStyle}>Sign up</Text>
-      </Button>
-    );
-  }
-
   render() {
     const { error, signUpError } = this.props;
     return (
@@ -151,7 +126,13 @@ class SignUpScreen extends Component {
                 />
               </Form>
               <Transition shared="authSubmitButton">
-                <View>{this.renderSubmitButton()}</View>
+                <View>
+                  <PrimaryButton
+                    onPress={this.props.handleSubmit(this.onSubmit.bind(this))}
+                    loading={this.props.loading}
+                    text="Sign Up"
+                  />
+                </View>
               </Transition>
               {this.renderError(error)}
               {this.renderError(signUpError)}

@@ -7,15 +7,12 @@ import {
   CardItem,
   Body,
   Form,
-  Button,
-  Left,
   Text,
-  Spinner,
 } from 'native-base';
 import { connect } from 'react-redux';
 import { changePassword } from '../../actions';
-import styles from './styles';
 import InputItem from '../../components/Auth/InputItem';
+import PrimaryButton from '../../components/common/PrimaryButton';
 
 const validate = values => {
   const error = {};
@@ -61,29 +58,6 @@ class ChangePasswordScreen extends Component {
     return <Text style={{ color: 'red' }}>{error}</Text>;
   }
 
-  renderSubmitButton() {
-    const { handleSubmit } = this.props;
-    if (this.props.loading) {
-      return (
-        <Button
-          block
-          style={[styles.signinButtonStyle, { backgroundColor: 'orange' }]}
-        >
-          <Spinner color="white" size="small" />
-        </Button>
-      );
-    }
-    return (
-      <Button
-        block
-        style={[styles.signinButtonStyle, { width: 200 }]}
-        onPress={handleSubmit(this.onSubmit.bind(this))}
-      >
-        <Text style={styles.singinButtonLabelStyle}>Change Password</Text>
-      </Button>
-    );
-  }
-
   render() {
     const { error, changePasswordError } = this.props;
     return (
@@ -111,7 +85,14 @@ class ChangePasswordScreen extends Component {
                   secureTextEntry
                 />
               </Form>
-              <View>{this.renderSubmitButton()}</View>
+              <View>
+                <PrimaryButton
+                  onPress={this.props.handleSubmit(this.onSubmit.bind(this))}
+                  loading={this.props.loading}
+                  buttonStyle={{ width: 200 }}
+                  text="Change Password"
+                />
+              </View>
               {this.renderError(error)}
               {this.renderError(changePasswordError)}
               {this.props.changePasswordSuccess && (

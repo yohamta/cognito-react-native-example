@@ -16,14 +16,6 @@ export default StyleSheet.create({
   inputItemStyle: {
     borderBottomColor: colors.vivid,
   },
-  signinButtonStyle: {
-    marginTop: 10,
-    width: 100,
-    backgroundColor: colors.vivid,
-  },
-  signinButtonLabelStyle: {
-    color: 'white',
-  },
   singupButtonStyle: {
     borderColor: colors.vivid,
     marginTop: 10,
