@@ -1,5 +1,4 @@
 import React from 'react';
-import { Component } from 'react';
 import { View } from 'react-native';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
 import { Transition } from 'react-navigation-fluid-transitions';
@@ -20,8 +19,20 @@ import styles from './styles';
 import InputItem from '../../components/Auth/InputItem';
 import PrimaryButton from '../../components/common/PrimaryButton';
 
-class SignInScreen extends Component {
-  onSubmit(values) {
+export interface Props {
+  user: object
+  signInError: boolean
+  error: string;
+  username: Number
+  password: Number
+  loading: boolean
+  navigation: object
+  signIn: Function
+  handleSubmit: (handler: Function) => void
+}
+
+export class SignInScreen extends React.Component<Props, any> {
+  onSubmit(values: {username: string, password: string} ) {
     if (values.username === undefined || values.username === '') {
       throw new SubmissionError({
         username: 'Please Input Username or E-mail Address',
@@ -37,7 +48,7 @@ class SignInScreen extends Component {
     this.props.signIn(values, this.props.navigation);
   }
 
-  renderError(error) {
+  renderError(error: string) {
     if (error === undefined || error === null || error === '') {
       return <View />;
     }
