@@ -51,5 +51,3 @@ $ yarn install
 
 4. react-native run-ios
 
-That's it.
-
