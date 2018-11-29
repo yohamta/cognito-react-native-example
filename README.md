@@ -31,6 +31,10 @@ This is an sample application using react native and AWS Cognito, implementing u
 
 ![sc](https://i.gyazo.com/1057dfb1c92524eeb57d4e3551dd57a0.png)
 
+## Fluid Animation
+
+[![Image from Gyazo](https://i.gyazo.com/4db1b03622978c260fd64930de811afd.gif)](https://gyazo.com/4db1b03622978c260fd64930de811afd)
+
 ## How to run app
 
 1. clone repo
